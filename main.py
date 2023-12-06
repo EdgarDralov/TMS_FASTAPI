@@ -1,10 +1,11 @@
+from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI()
 
 class User(BaseModel):
-    name: str
+    name: Optional[str]
     age: int
     is_admin: bool
 
@@ -27,3 +28,7 @@ def update_user(user_id: int):
 @app.put('/user/{user_id}')
 def update_user(user_id: int, user: User):
     return {'name': user.name, 'age': user.age, 'is_admin': user.is_admin, 'id': user_id}
+
+@app.post('/user')
+def create_user(user: User):
+    return user.__dict__
